@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inversa de Matrices</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        h2 {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 20px;
+            text-align: right;
+            margin-right: 5px;
+        }
+
+        input {
+            width: 60px;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Inversa de Matrices</h1>
+    <p>Selecciona el tipo de inversa de una matriz (2x2 o 3x3)</p>
+
+    <h2>Matriz 2x2</h2>
+    <p>Ingrese los valores de la matriz 2x2:</p>
+    <label for="a">a:</label>
+    <input type="number" id="a">
+    <label for="b">b:</label>
+    <input type="number" id="b">
+    <label for="c">c:</label>
+    <input type="number" id="c">
+    <label for="d">d:</label>
+    <input type="number" id="d">
+    <button onclick="calcularInversa2x2()">Calcular Inversa</button>
+    <p>Resultado:</p>
+    <table id="resultado2x2"></table>
+
+    <h2>Matriz 3x3</h2>
+    <p>Ingrese los valores de la matriz 3x3:</p>
+    <label for="aa">a:</label>
+    <input type="number" id="aa">
+    <label for="ab">b:</label>
+    <input type="number" id="ab">
+    <label for="ac">c:</label>
+    <input type="number" id="ac">
+    <br>
+    <label for="ba">d:</label>
+    <input type="number" id="ba">
+    <label for="bb">e:</label>
+    <input type="number" id="bb">
+    <label for="bc">f:</label>
+    <input type="number" id="bc">
+    <br>
+    <label for="ca">g:</label>
+    <input type="number" id="ca">
+    <label for="cb">h:</label>
+    <input type="number" id="cb">
+    <label for="cc">i:</label>
+    <input type="number" id="cc">
+    <button onclick="calcularInversa3x3()">Calcular Inversa</button>
+    <p>Resultado:</p>
+    <table id="resultado3x3"></table>
+</body>
+
+    <script>
+        function mostrarMatriz(matriz, filas, columnas, resultadoId) {
+            const resultado = document.getElementById(resultadoId);
+            resultado.innerHTML = '';
+
+            for (let i = 0; i < filas; i++) {
+                const fila = document.createElement('tr');
+                for (let j = 0; j < columnas; j++) {
+                    const celda = document.createElement('td');
+                    celda.textContent = matriz[i][j];
+                    fila.appendChild(celda);
+                }
+                resultado.appendChild(fila);
+            }
+        }
+
+        function calcularInversa2x2() {
+            const a = parseFloat(document.getElementById("a").value);
+            const b = parseFloat(document.getElementById("b").value);
+            const c = parseFloat(document.getElementById("c").value);
+            const d = parseFloat(document.getElementById("d").value);
+
+            const determinante = a * d - b * c;
+
+            if (determinante === 0) {
+                document.getElementById("resultado2x2").innerHTML = "La matriz no tiene inversa.";
+            } else {
+                const inversaA = d / determinante;
+                const inversaB = -b / determinante;
+                const inversaC = -c / determinante;
+                const inversaD = a / determinante;
+
+                mostrarMatriz([[inversaA, inversaB], [inversaC, inversaD]], 2, 2, "resultado2x2");
+            }
+        }
+
+        function calcularInversa3x3() {
+            const aa = parseFloat(document.getElementById("aa").value);
+            const ab = parseFloat(document.getElementById("ab").value);
+            const ac = parseFloat(document.getElementById("ac").value);
+            const ba = parseFloat(document.getElementById("ba").value);
+            const bb = parseFloat(document.getElementById("bb").value);
+            const bc = parseFloat(document.getElementById("bc").value);
+            const ca = parseFloat(document.getElementById("ca").value);
+            const cb = parseFloat(document.getElementById("cb").value);
+            const cc = parseFloat(document.getElementById("cc").value);
+
+            const determinante = aa * (bb * cc - bc * cb) - ab * (ba * cc - bc * ca) + ac * (ba * cb - bb * ca);
+
+            if (determinante === 0) {
+                document.getElementById("resultado3x3").innerHTML = "La matriz no tiene inversa.";
+            } else {
+                const inversaAA = (bb * cc - bc * cb) / determinante;
+                const inversaAB = -(ab * cc - ac * cb) / determinante;
+                const inversaAC = (ab * bc - ac * bb) / determinante;
+                const inversaBA = -(ba * cc - bc * ca) / determinante;
+                const inversaBB = (aa * cc - ac * ca) / determinante;
+                const inversaBC = -(aa * bc - ac * ba) / determinante;
+                const inversaCA = (ba * cb - bb * ca) / determinante;
+                const inversaCB = -(aa * cb - ab * ca) / determinante;
+                const inversaCC = (aa * bb - ab * ba) / determinante;
+
+                mostrarMatriz([[inversaAA, inversaAB, inversaAC], [inversaBA, inversaBB, inversaBC], [inversaCA, inversaCB, inversaCC]], 3, 3, "resultado3x3");
+            }
+        }
+    </script>
+</body>
+</html>

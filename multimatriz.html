@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Multiplicación de Matrices</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 40px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #333;
+        }
+
+        th, td {
+            padding: 5px 10px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #resultado {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Multiplicación de Matrices</h1>
+
+    <h2>Matriz A</h2>
+    <p>Ingrese las dimensiones de la matriz A:</p>
+    <label for="rowsA">Filas:</label>
+    <input type="number" id="rowsA">
+    <label for="colsA">Columnas:</label>
+    <input type="number" id="colsA">
+    <p>Ingrese los valores de la matriz A:</p>
+    <table id="matrixA"></table>
+
+    <h2>Matriz B</h2>
+    <p>Ingrese las dimensiones de la matriz B:</p>
+    <label for="rowsB">Filas:</label>
+    <input type="number" id="rowsB">
+    <label for="colsB">Columnas:</label>
+    <input type="number" id="colsB">
+    <p>Ingrese los valores de la matriz B:</p>
+    <table id="matrixB"></table>
+
+    <button onclick="multiplicarMatrices()">Multiplicar</button>
+    
+    <h2>Resultado</h2>
+    <table id="resultado"></table>
+
+    <script>
+        function crearMatriz(filas, columnas, matrixId) {
+            const matrix = document.getElementById(matrixId);
+            matrix.innerHTML = '';
+            for (let i = 0; i < filas; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < columnas; j++) {
+                    const cell = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                matrix.appendChild(row);
+            }
+        }
+
+        function obtenerMatriz(filas, columnas, matrixId) {
+            const matrix = [];
+            const matrixElement = document.getElementById(matrixId);
+            const rows = matrixElement.getElementsByTagName('tr');
+            for (let i = 0; i < filas; i++) {
+                const row = rows[i];
+                const inputs = row.getElementsByTagName('input');
+                matrix[i] = [];
+                for (let j = 0; j < columnas; j++) {
+                    matrix[i][j] = parseFloat(inputs[j].value);
+                }
+            }
+            return matrix;
+        }
+
+        function multiplicarMatrices() {
+            const rowsA = parseInt(document.getElementById('rowsA').value);
+            const colsA = parseInt(document.getElementById('colsA').value);
+            const rowsB = parseInt(document.getElementById('rowsB').value);
+            const colsB = parseInt(document.getElementById('colsB').value);
+
+            if (colsA !== rowsB) {
+                alert("El número de columnas de la matriz A debe ser igual al número de filas de la matriz B.");
+                return;
+            }
+
+            const matrixA = obtenerMatriz(rowsA, colsA, 'matrixA');
+            const matrixB = obtenerMatriz(rowsB, colsB, 'matrixB');
+
+            const resultado = new Array(rowsA);
+
+            for (let i = 0; i < rowsA; i++) {
+                resultado[i] = new Array(colsB);
+                for (let j = 0; j < colsB; j++) {
+                    resultado[i][j] = 0;
+                    for (let k = 0; k < colsA; k++) {
+                        resultado[i][j] += matrixA[i][k] * matrixB[k][j];
+                    }
+                }
+            }
+
+            mostrarMatriz(resultado, rowsA, colsB, 'resultado');
+        }
+
+        function mostrarMatriz(matriz, filas, columnas, resultadoId) {
+            const resultado = document.getElementById(resultadoId);
+            resultado.innerHTML = '';
+            for (let i = 0; i < filas; i++) {
+                const fila = document.createElement('tr');
+                for (let j = 0; j < columnas; j++) {
+                    const celda = document.createElement('td');
+                    celda.textContent = matriz[i][j];
+                    fila.appendChild(celda);
+                }
+                resultado.appendChild(fila);
+            }
+        }
+
+        document.getElementById('rowsA').addEventListener('change', function () {
+            const filas = parseInt(this.value);
+            const columnas = parseInt(document.getElementById('colsA').value);
+            crearMatriz(filas, columnas, 'matrixA');
+        });
+
+        document.getElementById('colsA').addEventListener('change', function () {
+            const filas = parseInt(document.getElementById('rowsA').value);
+            const columnas = parseInt(this.value);
+            crearMatriz(filas, columnas, 'matrixA');
+        });
+
+        document.getElementById('rowsB').addEventListener('change', function () {
+            const filas = parseInt(this.value);
+            const columnas = parseInt(document.getElementById('colsB').value);
+            crearMatriz(filas, columnas, 'matrixB');
+        });
+
+        document.getElementById('colsB').addEventListener('change', function () {
+            const filas = parseInt(document.getElementById('rowsB').value);
+            const columnas = parseInt(this.value);
+            crearMatriz(filas, columnas, 'matrixB');
+        });
+
+        crearMatriz(2, 2, 'matrixA');
+        crearMatriz(2, 2, 'matrixB');
+    </script>
+</body>
+</html>

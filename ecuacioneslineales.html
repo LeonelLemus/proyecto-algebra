@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resolución de Sistemas de Ecuaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            margin: 10px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            text-align: center;
+        }
+
+        #matrices {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid #ccc;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+<body>
+    <h1>Resolución de Sistemas de Ecuaciones</h1>
+
+    <h2>Seleccione el método:</h2>
+    <select id="method">
+        <option value="gauss-jordan">Método de Gauss-Jordan</option>
+        <option value="cramer">Regla de Cramer</option>
+    </select>
+    <br>
+    
+    <button onclick="mostrarMatriz(2)">Resolver Sistema 2x2</button>
+    <button onclick="mostrarMatriz(3)">Resolver Sistema 3x3</button>
+
+    <div id="matrices" style="display: none;">
+        <h2>Ingrese los valores de la matriz de coeficientes (A) y el vector de términos independientes (B)</h2>
+        <table id="matrixA"></table>
+        <br>
+        <table id="vectorB"></table>
+
+        <button onclick="resolverSistema()">Resolver</button>
+
+        <h2>Resultado</h2>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function crearMatriz(filas, columnas, matrixId, variables) {
+            const matrix = document.getElementById(matrixId);
+            matrix.innerHTML = '';
+            for (let i = 0; i < filas; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < columnas; j++) {
+                    const cell = document.createElement('td');
+                    const label = document.createElement('span');
+                    label.textContent = variables[j];
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    cell.appendChild(label);
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                matrix.appendChild(row);
+            }
+        }
+
+        function mostrarMatriz(dimension) {
+            const method = document.getElementById('method').value;
+            const matricesDiv = document.getElementById('matrices');
+            matricesDiv.style.display = 'block';
+            
+            let rowsA, colsA;
+            if (dimension === 2) {
+                rowsA = colsA = 2;
+            } else if (dimension === 3) {
+                rowsA = colsA = 3;
+            }
+
+            const variables = ['x', 'y', 'z'];
+
+            crearMatriz(rowsA, colsA, 'matrixA', variables);
+            const vectorB = document.getElementById('vectorB');
+            vectorB.innerHTML = '';
+            for (let i = 0; i < rowsA; i++) {
+                const label = document.createElement('span');
+                label.textContent = '=';
+                const input = document.createElement('input');
+                input.type = 'number';
+                vectorB.appendChild(label);
+                vectorB.appendChild(input);
+            }
+        }
+
+        function resolverSistema() {
+            const method = document.getElementById('method').value;
+            const rowsA = document.getElementById('matrixA').rows.length;
+            const colsA = document.getElementById('matrixA').rows[0].cells.length;
+
+            const matrixA = obtenerMatriz(rowsA, colsA, 'matrixA');
+            const vectorB = obtenerVector(rowsA);
+
+            let resultado = "";
+
+            if (method === 'gauss-jordan') {
+                resultado = resolverGaussJordan(matrixA, vectorB);
+            } else if (method === 'cramer') {
+                resultado = resolverCramer(matrixA, vectorB);
+            }
+
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+
+        function obtenerMatriz(filas, columnas, matrixId) {
+            const matrix = [];
+            const matrixElement = document.getElementById(matrixId);
+            const rows = matrixElement.getElementsByTagName('tr');
+            for (let i = 0; i < filas; i++) {
+                const row = rows[i];
+                const inputs = row.getElementsByTagName('input');
+                matrix[i] = [];
+                for (let j = 0; j < columnas; j++) {
+                    matrix[i][j] = parseFloat(inputs[j].value);
+                }
+            }
+            return matrix;
+        }
+
+        function obtenerVector(filas) {
+            const vector = [];
+            const vectorElement = document.getElementById('vectorB');
+            const inputs = vectorElement.getElementsByTagName('input');
+            for (let i = 0; i < filas; i++) {
+                vector[i] = parseFloat(inputs[i].value);
+            }
+            return vector;
+        }
+
+        function resolverGaussJordan(A, B) {
+            const n = A.length;
+            const augmentedMatrix = new Array(n);
+
+            for (let i = 0; i < n; i++) {
+                augmentedMatrix[i] = A[i].concat(B[i]);
+            }
+
+            for (let i = 0; i < n; i++) {
+                let maxRow = i;
+                for (let j = i + 1; j < n; j++) {
+                    if (Math.abs(augmentedMatrix[j][i]) > Math.abs(augmentedMatrix[maxRow][i])) {
+                        maxRow = j;
+                    }
+                }
+
+                [augmentedMatrix[i], augmentedMatrix[maxRow]] = [augmentedMatrix[maxRow], augmentedMatrix[i]];
+
+                const pivot = augmentedMatrix[i][i];
+                for (let j = i; j <= n; j++) {
+                    augmentedMatrix[i][j] /= pivot;
+                }
+
+                for (let j = 0; j < n; j++) {
+                    if (j !== i) {
+                        const factor = augmentedMatrix[j][i];
+                        for (let k = i; k <= n; k++) {
+                            augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
+                        }
+                    }
+                }
+            }
+
+            const solutions = augmentedMatrix.map(row => Math.round(row[n]));
+
+            return "Resultado utilizando Gauss-Jordan: " + solutions.join(', ');
+        }
+
+        function resolverCramer(A, B) {
+            const n = A.length;
+            const detA = determinante(A);
+
+            if (detA === 0) {
+                return "El sistema no tiene solución única (det(A) = 0).";
+            }
+
+            const resultados = new Array(n);
+
+            for (let i = 0; i < n; i++) {
+                const Ai = clonarMatriz(A);
+                for (let j = 0; j < n; j++) {
+                    Ai[j][i] = B[j];
+                }
+                const detAi = determinante(Ai);
+                resultados[i] = Math.round(detAi / detA);
+            }
+
+            return "Resultado utilizando la Regla de Cramer: " + resultados.join(', ');
+        }
+
+        function determinante(matriz) {
+            const n = matriz.length;
+
+            if (n === 2) {
+                return matriz[0][0] * matriz[1][1] - matriz[0][1] * matriz[1][0];
+            }
+
+            let det = 0;
+
+            for (let i = 0; i < n; i++) {
+                const submatriz = [];
+                for (let j = 1; j < n; j++) {
+                    submatriz.push(matriz[j].slice(0, i).concat(matriz[j].slice(i + 1)));
+                }
+                det += matriz[0][i] * Math.pow(-1, i) * determinante(submatriz);
+            }
+
+            return det;
+        }
+
+        function clonarMatriz(matriz) {
+            return matriz.map(row => [...row]);
+        }
+    </script>
+</body>
+</html>

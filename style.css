@@ -1,0 +1,233 @@
+.subtitulo {
+    color: aqua;
+}
+
+h1 {
+    text-align: left; 
+    font-family: Comic Sans MS; 
+    font-weight:bold; 
+    font-size: 80px; 
+    color: #EBD758; 
+    text-shadow: -1px 0 #414D68, 0 1px #414D68, 1px 0 #414D68, 0 -1px #414D68, -2px 2px 0 #414D68, 2px 2px 0 #414D68, 1px 1px #414D68, 2px 2px #414D68, 3px 3px #414D68, 4px 4px #414D68, 5px 5px #414D68;
+    text-align: center;
+    padding-top: 30px;
+}
+
+body {
+    background-image: url(fondo.jpg);
+    background-size: 4500px;
+}
+
+h2 {
+    font-size: 30px;
+	font-weight: 500;
+	text-align: center;
+	margin-bottom: 0px;
+	text-transform: uppercase;
+	color: #D159FE;
+    text-shadow: #D159FE 0 0 10px;
+	padding: 30px 20px;
+}
+
+#Descripcion {
+    font-size: 22px;
+	font-weight: 500;
+	text-align: left;
+	margin-bottom: 0px;
+	text-transform: inherit;
+	color: #2f4cf0;
+    text-shadow: #5b2efc 0 0 10px;
+	padding: 5px 10px;
+}
+
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .cta1 {
+    position: relative;
+    margin: auto;
+    padding: 3px 4px;
+    transition: all 0.2s ease;
+  }
+  .cta1:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 28px;
+    background: rgba(160, 212, 5, 0.5);
+    width: 46px;
+    height: 30px;
+    transition: all 0.3s ease;
+  }
+  .cta1 span {
+    position: relative;
+    font-size: 15px;
+    line-height: 5px;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: white;
+  }
+  .cta1 svg {
+    position: relative;
+    top: 0;
+    margin-left: 5px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #e6e5e5;
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+  .cta1:hover:before {
+    width: 100%;
+    background: #48ed11;
+  }
+  .cta1:hover svg {
+    transform: translateX(0);
+  }
+  .cta1:active {
+    transform: scale(0.96);
+  }
+
+  /* estilos boton 2 */
+
+
+  .cta2 {
+    position: relative;
+    margin: auto;
+    padding: 3px 4px;
+    transition: all 0.2s ease;
+  }
+  .cta2:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 28px;
+    background: rgba(226, 36, 36, 0.5);
+    width: 46px;
+    height: 30px;
+    transition: all 0.3s ease;
+  }
+  .cta2 span {
+    position: relative;
+    font-size: 15px;
+    line-height: 5px;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: white;
+  }
+  .cta2 svg {
+    position: relative;
+    top: 0;
+    margin-left: 5px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #e6e5e5;
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+  .cta2:hover:before {
+    width: 100%;
+    background: #f50606;
+  }
+  .cta2:hover svg {
+    transform: translateX(0);
+  }
+  .cta2:active {
+    transform: scale(0.96);
+  }
+
+
+  /* estilos boton 3 */
+
+  .cta3 {
+    position: relative;
+    margin: auto;
+    padding: 3px 4px;
+    transition: all 0.2s ease;
+  }
+  .cta3:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 28px;
+    background: rgba(53, 53, 53, 0.5);
+    width: 46px;
+    height: 30px;
+    transition: all 0.3s ease;
+  }
+  .cta3 span {
+    position: relative;
+    font-size: 15px;
+    line-height: 5px;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    color: white;
+  }
+  .cta3 svg {
+    position: relative;
+    top: 0;
+    margin-left: 5px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #e6e5e5;
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+  .cta3:hover:before {
+    width: 100%;
+    background: #8f8f8f;
+  }
+  .cta3:hover svg {
+    transform: translateX(0);
+  }
+  .cta3:active {
+    transform: scale(0.96);
+  }
+
+
+
+
+
+.respuesta {
+    color: chartreuse;
+    text-decoration: underline;
+
+}
+
+.descriProblema1 {
+    font-size: 20px;
+    color: #abc068;
+}
+
+.descriProblema2 {
+    font-size: 20px;
+    color: red;
+}
+
+.descriProblema3 {
+    font-size: 20px;
+    color: #959595;
+}
+ 
